@@ -1,35 +1,50 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
-import Header from "./components/Header";
-import PostList from "./components/posts/PostList";
-import Post from "./components/posts/Post";
-import SubredditsList from "./components/subreddits/SubredditsList";
+import "./App.css";
 
-const App = () => {
+import { Header } from "./components/Header";
+import { PostList } from "./components/posts/PostList";
+import { FullPost } from "./components/posts/FullPost";
+import { Subreddits } from "./components/subreddits/Subreddits";
+import { SubredditsList } from "./components/subreddits/SubredditsList";
+
+import { getSubredditPosts } from "./app/Reddit";
+import { changePosts } from "./components/posts/postsSlice";
+
+function App() {
+  const currentSubreddit = useSelector(
+    (state) => state.subreddits.currentSubreddit
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getSubredditPosts(currentSubreddit).then((response) => {
+      dispatch(changePosts(response));
+    });
+  }, [currentSubreddit]);
+
   return (
     <Router>
-      
-      <div className="app">
-        <div className="post">
+      <div className="App">
+        <Header />
+        <main>
           <Switch>
-            <Route exact path="/">
-              <Redirect to="/r/all" />
+            <Route exact path="/fullPost">
+              <FullPost />
             </Route>
-            <Route path="/r/:subreddit" children={<PostList />} />
+            <Route exact path="/">
+              <PostList />
+            </Route>
           </Switch>
-        </div>
-        <div className="sub">
+
           <SubredditsList />
-        </div>
+        </main>
       </div>
     </Router>
   );
-};
+}
 
 export default App;

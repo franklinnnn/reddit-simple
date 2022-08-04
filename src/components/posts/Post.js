@@ -7,15 +7,14 @@ const Post = (props) => {
     <section className="post-container">
       <div>
         <a href={`https://reddit.com${props.post.permalink}`} target="_blank">
-          
           <h3>{props.post.title}</h3>
           <div>{props.post.subreddit_name_prefixed}</div>
           <div>
             {props.post.url.includes(".jpg") && (
-                <img className="post-media" src={props.post.url} />
+              <img className="post-media" src={props.post.url} />
             )}
             {props.post.url.includes(".mp4") && (
-                <video className="post-mdia" src={props.post.url}/>
+              <video className="post-mdia" src={props.post.url} />
             )}
           </div>
           <div>posted by {props.post.author}</div>

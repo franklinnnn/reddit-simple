@@ -1,19 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Header = () => {
-  const [subreddit, setSubreddit] = useState([""]);
+import { useDispatch } from "react-redux";
+import { changeCurrentSubreddit } from "./subreddits/subredditsSlice";
+import { SearchBar } from "./search/SearchBar";
+import { SubredditsDropdown } from "./subreddits/SubredditsDropdown";
+
+export const Header = () => {
+  const dispatch = useDispatch();
+
+  const onTitleClicked = () => {
+    dispatch(changeCurrentSubreddit("/r/popular/"));
+  };
+
   return (
-    <section>
-      <header className="app-header">
-        <input
-          type="text"
-          className="input"
-          onChange={(e) => setSubreddit(e.target.value)}
-          value={subreddit}
-        />
-      </header>
-    </section>
+    <header className="header">
+      <Link to="/" className="app-name">
+        <div onClick={onTitleClicked}>
+          <span>reddit</span>simple
+        </div>
+      </Link>
+      <SearchBar className="searchbar" />
+      <SubredditsDropdown />
+    </header>
   );
 };
-
-export default Header;
