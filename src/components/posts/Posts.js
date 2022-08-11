@@ -1,67 +1,87 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
+import React, { useEffect } from "react";
+import "./postList.css";
 import { useSelector, useDispatch } from "react-redux";
-import { changeActivePostId } from "./individualPostSlice";
-import { ModeCommentOutlined, ThumbUpOutlined } from "@mui/icons-material";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { loadPosts } from "../../features/posts/postsSlice";
+import { Post } from "./Post";
+import { setSearch } from "../../features/searchBar/searchBarSlice";
+import { Loading } from "../loading/Loading";
 
 export const Posts = () => {
-  const activeSearchInput = useSelector((state) => state.search);
-  const posts = useSelector((state) => state.posts);
-
   const dispatch = useDispatch();
 
-  const filteredPosts = posts.filter((post) =>
-    post.title.toLowerCase().includes(activeSearchInput.toLowerCase())
-  ); //select only posts that include the search bar value
+  const posts = useSelector((state) => state.posts.data);
+  const loading = useSelector((state) => state.posts.isLoadingPosts);
+  const failed = useSelector((state) => state.posts.failedToLoadPosts);
+  const subreddit = useSelector((state) => state.selectedSubreddit);
+  const searchTerm = useSelector((state) => state.searchTerm);
+
+  useEffect(() => {
+    dispatch(loadPosts(subreddit))
+      .then(unwrapResult)
+      .catch((error) => {
+        console.log("This subreddit seems to be private. Oh no.");
+      });
+  }, [dispatch, subreddit]);
+
+  const resetSearch = () => {
+    dispatch(setSearch(""));
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+  if (failed || posts === "failed") {
+    return (
+      <p style={{ textAlign: "center" }}>
+        Oh no! Something went wrong :( Try another subreddit?
+      </p>
+    );
+  }
+
+  console.log(posts);
+
+  if (searchTerm) {
+    const filteredPosts = posts.filter((post) =>
+      post.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return (
+      <div className="posts">
+        <h2 className="subreddit">r/{subreddit}</h2>
+        <p style={{ textAlign: "center" }}>Search results for "{searchTerm}"</p>
+
+        <div className="posts-container">
+          {filteredPosts.length < 1 ? (
+            <div>
+              <p>No posts 🙁</p>
+              <div id="clear-search">
+                <button onClick={resetSearch}>Clear search</button>
+              </div>
+            </div>
+          ) : (
+            filteredPosts.map((post) => {
+              return <Post post={post} key={post.id} />;
+            })
+          )}
+        </div>
+        <div id="clear-search">
+          <button onClick={resetSearch}>Clear search</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <section className="posts">
-      {filteredPosts.map((post) => (
-        <section className="post-container" key={post.id}>
-          <div className="post-body">
-            {/* <Link
-              to={`https://reddit.com${post.permalink}`}
-              onClick={() => dispatch(changeActivePostId(post.name))}
-            >
-              <h2>{post.title}</h2>
-              <p>
-                {post.selftext.substring(0, 600) +
-                  (post.selftext.length > 600 ? " [...]" : "")}
-              </p>
-              {post.selftext.length > 600 ? (
-                <p className="read-more">read more...</p>
-              ) : null}
-              <img
-                src={post.url}
-                onError={(e) => (e.target.style.display = "none")}
-              />
-            </Link> */}
-            <a href={`https://reddit.com${post.permalink}`} target="_blank">
-              <h2>{post.title}</h2>
-              <img
-                src={post.url}
-                onError={(e) => (e.target.style.display = "none")}
-                className="post-media"
-              />
-              <div className="post-sub-author">
-                <div>{post.subreddit_name_prefixed}</div>
-                <div>posted by {post.author}</div>
-              </div>
-              <div className="post-comments-likes">
-                <div>
-                  <ModeCommentOutlined fontSize="small" />
-                  {post.num_comments}
-                </div>
-                <div>
-                  <ThumbUpOutlined fontSize="small" />
-                  {post.ups}
-                </div>
-              </div>
-            </a>
-          </div>
-        </section>
-      ))}
-    </section>
+    <div className="posts">
+      {/* <h2 className="subreddit">r/{subreddit}</h2> */}
+      <div className="posts-container">
+        {posts.length < 1
+          ? "No posts :("
+          : posts.map((post) => {
+              return <Post post={post} key={post.id} />;
+            })}
+      </div>
+    </div>
   );
 };

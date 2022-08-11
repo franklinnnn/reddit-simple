@@ -1,11 +1,12 @@
 import React from "react";
-import "./post.css";
 import { Link } from "react-router-dom";
-import ReactPlayer from "react-player";
-import ReactMarkdown from "react-markdown";
-import { ModeCommentOutlined, ThumbUpAltOutlined } from "@mui/icons-material";
 
-export const Post = ({ post }) => {
+import ReactPlayer from "react-player";
+import { ModeCommentOutlined, ThumbUpAltOutlined } from "@mui/icons-material";
+import "./previewPost.css";
+import ReactMarkdown from "react-markdown";
+
+export const PreviewPost = ({ post }) => {
   const { title, author, embedId, upvotes, numComments, id } = post;
 
   return (
@@ -52,13 +53,13 @@ export const Post = ({ post }) => {
         </div>
         <div id="post-comments-ups">
           <Link to={`/${id}`}>
-            <div>
-              <ModeCommentOutlined /> <span>{post.numComments}</span>
-            </div>
+            <span>
+              <ModeCommentOutlined /> {post.numComments}
+            </span>
           </Link>
-          <div>
-            <ThumbUpAltOutlined /> <span>{upvotes}</span>
-          </div>
+          <span>
+            <ThumbUpAltOutlined /> {upvotes}
+          </span>
         </div>
       </div>
     </div>

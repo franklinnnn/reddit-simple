@@ -1,34 +1,28 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeCurrentSubreddit } from "./subredditsSlice";
+import { selectedSubreddit } from "./selelctedSubredditSlice";
 import { Link } from "react-router-dom";
 
 export const SubredditsList = (props) => {
-  const currentSubreddit = useSelector(
-    (state) => state.subreddits.currentSubreddit
-  );
-  const subreddits = useSelector((state) => state.subreddits.subreddits);
+  const selectedSub = useSelector((state) => state.selectedSubreddit);
+  const subreddits = useSelector((state) => state.subreddits);
   const dispatch = useDispatch();
   return (
     <section className="subreddits-container">
       <h4>Featured Subreddits</h4>
       <ul>
-        {subreddits.map((item) => (
-          <Link to="/" key={item.id}>
+        {subreddits.map((subreddit) => (
+          <Link to="/" key={subreddit}>
             <li
-              onClick={() => dispatch(changeCurrentSubreddit(item.url))}
+              onClick={() => dispatch(selectedSubreddit({ subreddit }))}
               className={
-                currentSubreddit === item.url
+                subreddit === selectedSub
                   ? { backgroundColor: "#e0fbfc" }
                   : { backgroundColor: "#fff" }
               }
             >
-              <img
-                src={item.icon}
-                onError={(e) => (e.target.src = props.logo)}
-                width="22px"
-              />
-              {item.name}
+              {subreddit}
             </li>
           </Link>
         ))}

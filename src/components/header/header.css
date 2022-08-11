@@ -1,0 +1,64 @@
+.header {
+  position: relative;
+  background: #e8e9eb;
+  color: #0f1400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.2);
+}
+
+#logo {
+  position: absolute;
+  top: 1rem;
+  height: 80%;
+  left: 1rem;
+  z-index: 2;
+}
+
+.title {
+  position: relative;
+  margin: 1rem;
+}
+
+.title h1 {
+  text-transform: uppercase;
+  line-height: 0px;
+  font-size: 3rem;
+}
+
+.title span {
+  font-weight: bold;
+}
+
+#search-bar {
+  display: flex;
+  margin: 0 5px;
+}
+
+#search-bar input {
+  background-color: #d3d6d9;
+  border: none;
+  display: inline-block;
+  font-size: 0.8rem;
+  padding: 2px;
+  outline: none;
+  width: 80%;
+}
+#search-bar input:hover {
+  background-color: #bec2c6;
+}
+
+#search-bar button {
+  border: none;
+  background-color: #ef6461;
+  color: #e8e9eb;
+  font-weight: bold;
+  padding: 2px 4px;
+  text-transform: uppercase;
+}
+
+#search-bar button:hover {
+  background-color: #ed4845;
+}

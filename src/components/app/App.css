@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Oxygen&family=PT+Sans&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Oxygen", "PT Sans", sans-serif;
+}
+
+.content {
+  background-color: #e8e9eb;
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+@media only screen and (max-width: 850px) {
+  .content {
+    margin-top: 2rem;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .content {
+    margin-top: 2rem;
+  }
+}

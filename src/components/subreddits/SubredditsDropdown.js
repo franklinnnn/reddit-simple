@@ -2,20 +2,14 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getSubreddits } from "../../app/Reddit";
-import {
-  addSubreddit,
-  changeCurrentSubreddit,
-} from "../subreddits/subredditsSlice";
+import { addSubreddit } from "../subreddits/subredditsSlice";
+import { selectedSubreddit } from "./selelctedSubredditSlice";
 
 export const SubredditsDropdown = (props) => {
   const dispatch = useDispatch();
 
-  const currentSubreddit = useSelector(
-    (state) => state.subreddits.currentSubreddit
-  );
-  const dropdownSubreddits = useSelector(
-    (state) => state.subreddits.dropdownSubreddits
-  );
+  const currentSubreddit = useSelector((state) => state.selectedSubreddit);
+  const dropdownSubreddits = useSelector((state) => state.subreddits);
 
   useEffect(() => {
     getSubreddits().then((json) => {
@@ -33,7 +27,7 @@ export const SubredditsDropdown = (props) => {
   }, [dispatch]);
 
   const onOptionSelected = (e) => {
-    dispatch(changeCurrentSubreddit(e.target.value));
+    dispatch(selectedSubreddit(e.target.value));
   };
 
   const dropdown = (subs) => {

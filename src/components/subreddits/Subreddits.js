@@ -1,37 +1,34 @@
+import "./subreddits.css";
 import React from "react";
-
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { getSubreddits } from "../../app/Reddit";
-import { changeCurrentSubreddit } from "./subredditsSlice";
+import { selectedSubreddit } from "../../features/subreddits/selectedSubredditSlice";
 
-export const Subreddits = (props) => {
-  const currentSubreddit = useSelector(
-    (state) => state.subreddits.currentSubreddit
-  );
-  const subreddits = useSelector((state) => state.subreddits.subreddits);
+export const Subreddits = () => {
   const dispatch = useDispatch();
+
+  const subreddits = useSelector((state) => state.subreddits);
+  const selectedSub = useSelector((state) => state.selectedSubreddit);
+
   return (
-    <section className="subreddits-container">
-      <h3>Subreddits</h3>
+    <div id="subreddits">
+      <h4>Featured Subreddits</h4>
       <ul>
-        {subreddits.map((item) => (
-          <Link to="/" key={item.id}>
+        {subreddits.map((subreddit) => (
+          <Link key={subreddit} to="/">
             <li
-              onClick={() => dispatch(changeCurrentSubreddit(item.url))}
-              className="active-sub'"
+              onClick={() => {
+                dispatch(selectedSubreddit({ subreddit }));
+              }}
+              className={subreddit === selectedSub ? "selected" : "unselected"}
             >
-              <img
-                src={item.icon}
-                onError={(e) => (e.target.src = props.logo)}
-                width="25px"
-              />
-              {item.name}
+              {/* <img src={subreddit.icon} width="25px" /> */}
+              {subreddit}
             </li>
           </Link>
         ))}
       </ul>
-    </section>
+    </div>
   );
 };
