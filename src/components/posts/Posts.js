@@ -13,7 +13,7 @@ export const Posts = () => {
   const posts = useSelector((state) => state.posts.data);
   const loading = useSelector((state) => state.posts.isLoadingPosts);
   const failed = useSelector((state) => state.posts.failedToLoadPosts);
-  const subreddit = useSelector((state) => state.selectedSubreddit);
+  const subreddit = useSelector((state) => state.subreddits.activeSubreddit);
   const searchTerm = useSelector((state) => state.searchTerm);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export const Posts = () => {
   if (failed || posts === "failed") {
     return (
       <p style={{ textAlign: "center" }}>
-        Oh no! Something went wrong :( Try another subreddit?
+        Oh no! Something went wrong. Try another subreddit?
       </p>
     );
   }
@@ -48,7 +48,7 @@ export const Posts = () => {
 
     return (
       <div className="posts">
-        <h2 className="subreddit">r/{subreddit}</h2>
+        <h2 className="subreddit">r{subreddit}</h2>
         <p style={{ textAlign: "center" }}>Search results for "{searchTerm}"</p>
 
         <div className="posts-container">

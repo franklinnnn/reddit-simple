@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -7,7 +7,7 @@ import {
   changeActiveSubreddit,
 } from "../../features/subreddits/subredditsSlice";
 
-export const SubredditsDropdown = () => {
+export const SubredditsTest = ({ onExit }) => {
   const dispatch = useDispatch();
 
   const moreSubreddits = useSelector(
@@ -24,58 +24,37 @@ export const SubredditsDropdown = () => {
               name: item.display_name,
               url: item.url,
               id: item.id,
-              icon: item.icon_img,
+              icon: item.community_icon,
               banner: item.banner_img,
             })
           )
         );
       }),
-    []
+    [dispatch]
   );
 
-  const onOptionSelected = (e) => {
-    dispatch(changeActiveSubreddit(e.target.value));
-  };
-
-  const scrollToTop = () => {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-  };
-
   return (
-    // <select
-    //   className="subreddits-dropdown"
-    //   value={selectedSub}
-    //   onChange={onOptionSelected}
-    // >
-    //   {moreSubreddits.map((subreddit) => (
-    //     <option key={subreddit.id} value={subreddit.url}>
-    //       {subreddit.name}
-    //     </option>
-    //   ))}
-    // </select>
     <div id="more-subreddits">
+      <h3>More subreddits</h3>
+      <button onClick={onExit}>close</button>
       <ul>
         {moreSubreddits.map((subreddit) => (
           <Link key={subreddit} to="/">
             <li
               onClick={() => {
                 dispatch(changeActiveSubreddit(subreddit.url));
-                scrollToTop();
               }}
               className={subreddit === selectedSub ? "selected" : "unselected"}
             >
-              <div>
-                {subreddit.icon ? (
-                  <img src={subreddit.icon} width="25px" />
+              <div id="more-subreddits-banner">
+                {subreddit.banner ? (
+                  <img src={subreddit.banner} />
                 ) : (
-                  <img
-                    src="https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png"
-                    width="25px"
-                  />
+                  <img src="https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png" />
                 )}
               </div>
-              {subreddit.name}
+
+              <div id="more-subreddits-name">{subreddit.name}</div>
             </li>
           </Link>
         ))}

@@ -35,7 +35,7 @@
   text-align: left;
 }
 
-#full-post-link:hover {
+#full-post a:hover {
   color: #ef6461;
   font-weight: bold;
 }

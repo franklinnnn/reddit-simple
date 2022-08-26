@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { loadComments } from "../../features/comments/commentsSlice";
 import { Comment } from "../comment/Comment";
+import { Loading } from "../loading/Loading";
 import ReactPlayer from "react-player";
 import ReactMarkdown from "react-markdown";
 import {
@@ -34,12 +35,13 @@ export const FullPost = ({ match }) => {
       </div>
       <div id="full-post">
         <div id="full-post-sub-author">
-          <span>r/{subreddit}</span>
-          <span>posted by {author}</span>
+          <span>r/{post.subreddit}</span>
+          <span>posted by {post.author}</span>
         </div>
-        <h2>{title}</h2>
+        <h2>{post.title}</h2>
         <div id="post-media">
-          {post.url.includes(".jpg") && <img src={post.url} width="100%" />}
+          {post.url.includes(".jpg") ||
+            (post.url.includes(".png") && <img src={post.url} width="100%" />)}
           {post.isVideo && (
             <ReactPlayer
               url={post.media.reddit_video.fallback_url}
@@ -52,7 +54,7 @@ export const FullPost = ({ match }) => {
           )}
         </div>
         <div id="full-post-text">
-          <ReactMarkdown>{text}</ReactMarkdown>
+          <ReactMarkdown>{post.text}</ReactMarkdown>
         </div>
         {post.url.includes("reddit") ? null : (
           <a href={post.url} id="single-post-link" target="_blank">
@@ -64,12 +66,14 @@ export const FullPost = ({ match }) => {
             <ModeCommentOutlined /> <span>{post.numComments} comments</span>
           </div>
           <div>
-            <ThumbUpAltOutlined /> <span>{upvotes} upvotes</span>
+            <ThumbUpAltOutlined /> <span>{post.upvotes} upvotes</span>
           </div>
         </div>
         <div id="comments-container">
           {isLoadingComments ? (
-            <p>Loading...</p>
+            <p>
+              <Loading />
+            </p>
           ) : (
             data.map((comment) => (
               <Comment comment={comment} key={comment.id} />

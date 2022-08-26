@@ -1,12 +1,17 @@
 import React from "react";
 import "./post.css";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import ReactPlayer from "react-player";
 import ReactMarkdown from "react-markdown";
 import { ModeCommentOutlined, ThumbUpAltOutlined } from "@mui/icons-material";
+import { dateCalculator } from "../../features/date/dateCalculator";
+import { PostFooter } from "./PostFooter";
+import { changeActiveSubreddit } from "../../features/subreddits/subredditsSlice";
 
 export const Post = ({ post }) => {
-  const { title, author, embedId, upvotes, numComments, id } = post;
+  // const { title, author, upvotes, numComments, id, thumbnail, url, domain, isVideo, text, media, created } = post;
+  const dispatch = useDispatch();
 
   return (
     <div id="post">
@@ -19,8 +24,8 @@ export const Post = ({ post }) => {
             <img src={post.thumbnail} />
           </div>
         ) : null}
-        <Link to={`/${id}`}>
-          <h2 id="post-title">{title}</h2>
+        <Link to={`/${post.id}`}>
+          <h2 id="post-title">{post.title}</h2>
         </Link>
       </div>
       <div className="post-media">
@@ -39,7 +44,7 @@ export const Post = ({ post }) => {
           {post.text.substring(0, 200) + (post.text.length > 200 ? "..." : "")}
         </ReactMarkdown>
         {post.text.length > 200 ? (
-          <Link to={`/${id}`}>
+          <Link to={`/${post.id}`}>
             <div id="post-read-more">read more</div>
           </Link>
         ) : null}
@@ -47,20 +52,38 @@ export const Post = ({ post }) => {
 
       <div id="post-footer">
         <div id="post-sub-author">
-          <p>r/{post.subreddit}</p>
-          <p id="post-author">posted by {author}</p>
+          <Link
+            to="/"
+            onClick={() =>
+              dispatch(changeActiveSubreddit(`r/${post.subreddit}`))
+            }
+          >
+            <p>r/{post.subreddit}</p>
+          </Link>
+          <p id="post-author">
+            posted by {post.author} {dateCalculator(post.created)}
+          </p>
         </div>
         <div id="post-comments-ups">
-          <Link to={`/${id}`}>
+          <Link to={`/${post.id}`}>
             <div>
               <ModeCommentOutlined /> <span>{post.numComments}</span>
             </div>
           </Link>
           <div>
-            <ThumbUpAltOutlined /> <span>{upvotes}</span>
+            <ThumbUpAltOutlined /> <span>{post.upvotes}</span>
           </div>
         </div>
       </div>
+
+      {/* <PostFooter
+        postId={post.id}
+        postSubreddit={post.subreddit}
+        postAuthor={post.author}
+        postComments={post.numComments}
+        postUpvotes={post.upvotes}
+        visible={false}
+      /> */}
     </div>
   );
 };

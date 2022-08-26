@@ -5,7 +5,7 @@ export const loadPosts = createAsyncThunk(
   async (subreddit, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `https://www.reddit.com/r/${subreddit}/hot.json`
+        `https://www.reddit.com/${subreddit}.json?count=25`
       );
       const json = await response.json();
 
@@ -47,6 +47,7 @@ export const postsSlice = createSlice({
                 domain: item.data.domain,
                 isVideo: item.data.is_video,
                 media: item.data.media,
+                created: item.data.created,
               };
             })
           : "failed";

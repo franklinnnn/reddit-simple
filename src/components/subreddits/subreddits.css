@@ -16,6 +16,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   align-items: left;
+  min-width: 260px;
   height: 50%;
   padding: 0.6rem;
   margin-top: 0.3rem;
@@ -25,8 +26,20 @@ a:hover {
   background-color: #d3d6d9;
 }
 
+#subreddits h3 {
+  color: #828487;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.1rem;
+}
 #subreddits h4 {
   color: #828487;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.1rem;
+  margin-top: 0.4rem;
+  padding: 0.4rem 0;
+  border-top: 1px solid #bec2c6;
 }
 
 #subreddits li {
@@ -35,7 +48,6 @@ a:hover {
   padding: 12px;
   margin: 10px 0;
   background-color: #e8e9eb;
-  max-width: 340px;
   box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   text-align: left;
@@ -62,4 +74,48 @@ a:hover {
 #subreddits img {
   margin-right: 0.4rem;
   border-radius: 100px;
+}
+
+#more {
+  display: none;
+}
+
+#more-subreddits {
+  position: relative;
+}
+#more-subreddits li {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #e8e9eb;
+  max-width: 340px;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  text-align: left;
+  list-style: none;
+  transition: ease-out 0.3s;
+}
+#more-subreddits li:hover {
+  border: 1px solid #ed4845;
+  background-color: #ef6461;
+  color: #e8e9eb;
+  cursor: pointer;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.1);
+}
+#more-subreddits img {
+  width: 25px;
+}
+#more-subs:hover h4 {
+  color: #ef6461;
+}
+
+#more-subs .more-arrow {
+  opacity: 0;
+}
+#more-subs:hover .more-arrow {
+  color: #ef6461;
+  opacity: 100;
+  transition: linear 0.3s;
+  transform: translateY(7px);
 }

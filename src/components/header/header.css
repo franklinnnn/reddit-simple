@@ -1,12 +1,15 @@
 .header {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   background: #e8e9eb;
   color: #0f1400;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 
 #logo {
@@ -22,6 +25,11 @@
   margin: 1rem;
 }
 
+.title:hover {
+  color: #ed4845;
+  transition: ease-out 0.2s;
+}
+
 .title h1 {
   text-transform: uppercase;
   line-height: 0px;
@@ -35,6 +43,8 @@
 #search-bar {
   display: flex;
   margin: 0 5px;
+  background-color: red;
+  width: 500px;
 }
 
 #search-bar input {
@@ -44,10 +54,11 @@
   font-size: 0.8rem;
   padding: 2px;
   outline: none;
-  width: 80%;
+  width: 100%;
 }
 #search-bar input:hover {
   background-color: #bec2c6;
+  transition: ease-out 0.2s;
 }
 
 #search-bar button {
@@ -61,4 +72,34 @@
 
 #search-bar button:hover {
   background-color: #ed4845;
+  transition: ease-out 0.2s;
+}
+
+.top-navigation {
+  display: flex;
+  max-width: 400px;
+  padding: 0 2rem;
+}
+
+.top-navigation-button {
+  margin-right: 0.2rem;
+  margin-top: 0.2rem;
+}
+
+.top-navigation-button:hover {
+  color: #ef6461;
+  background-color: #bec2c6;
+  transition: ease-out 0.2s;
+  scale: 1.1;
+  border-radius: 4px;
+}
+
+.personal-links {
+  padding: 0 1rem;
+}
+
+.mode-switch {
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
 }
